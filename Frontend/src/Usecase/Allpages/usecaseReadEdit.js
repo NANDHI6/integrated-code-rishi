@@ -383,15 +383,15 @@ export const UsecaseReadEdit = () => {
           )}
         </tbody>
       </table>
-      <div className={`toggle-bar ${toggleBarOpen ? "open" : ""}`}>
+      {/* <div className={`toggle-bar ${toggleBarOpen ? "open" : ""}`}>
         <div className="toggle-bar-content">
           <table id="mini1">
             <thead>
               <tr>
                 <th>Usecase</th>
+                <th>Daily Task</th>
                 <th>Date</th>
                 <th>Time</th>
-                <th>Daily Task</th>
               </tr>
             </thead>
             <tbody>
@@ -399,13 +399,46 @@ export const UsecaseReadEdit = () => {
                 taskData.map((obj) => (
                   <tr key={obj.ID}>
                     <td>{obj.usecasetitle}</td>
+                    <td >{obj.Dailytask}</td>
                     <td>{obj.Date.substring(0, 10)}</td>
                     <td>{obj.Time}</td>
-                    <td>{obj.Dailytask}</td>
                   </tr>
                 ))}
             </tbody>
           </table>
+          <span onClick={closeToggleBar}>
+            <IoClose />
+          </span>
+          <button onClick={downloadAllCSV2} id="down-al2">
+            Download csv
+          </button>
+        </div>
+      </div> */}
+        <div className={`toggle-bar ${toggleBarOpen ? "open" : ""}`}>
+        <div className="toggle-bar-content">
+          <div className="scroll-container">
+            <table id="mini1">
+              <thead>
+                <tr>
+                  <th style={{ width: "35%" }}>Usecase</th>
+                  <th style={{ width: "40%" }}>Daily Task</th>
+                  <th style={{ width: "35%" }}>Date</th>
+                  <th style={{ width: "35%" }}>Time</th>
+                </tr>
+              </thead>
+              <tbody>
+                {Array.isArray(taskData) &&
+                  taskData.map((obj) => (
+                    <tr key={obj.ID}>
+                      <td style={{ width: "35%" }}>{obj.usecasetitle}</td>
+                      <td style={{ width: "40%" }}>{obj.Dailytask}</td>
+                      <td style={{ width: "35%" }}>{obj.Date.substring(0, 10)}</td>
+                      <td style={{ width: "35%" }}>{obj.Time}</td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+          </div>
           <span onClick={closeToggleBar}>
             <IoClose />
           </span>

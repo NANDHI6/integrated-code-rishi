@@ -49,6 +49,8 @@ app.use("user/audit", routePath);
 
 app.use("/productive",routePath);
 
+app.use("/permissions",routePath);
+
 const port = process.env.PORT || 4023;
 
 

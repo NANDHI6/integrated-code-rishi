@@ -25,25 +25,24 @@
   font-weight: 500;
   color: #4072a7;
 }
-#mini1 {
+/* #mini1 {
   position: absolute;
-  width: 600px;
+  width: 800px;
   top: 100px;
-  left: 5px;
+  left: 15px;
   max-height: 100px;
-  overflow-y: hidden; /* hide overflow on table itself */
+  overflow-y: hidden; 
   z-index: 0;
-  border-collapse: collapse; /* Ensure borders collapse */
+  border-collapse: collapse; 
 }
-
 #mini1 thead {
   display: table;
   width: 100%;
-  table-layout: fixed; /* Ensures table layout remains fixed */
+  table-layout: fixed; 
 }
 
 #mini1 tbody {
-  display: block; /* Allows tbody to be scrollable */
+  display: block;
   max-height: 600px;
   overflow-y: auto;
   width: 100%;
@@ -52,15 +51,74 @@
 #mini1 tbody tr {
   display: table;
   width: 100%;
-  table-layout: fixed; /* Ensures table layout remains fixed */
+  table-layout: fixed; 
 }
 
 #mini1 th, #mini1 td {
   padding: 8px;
   text-align: left;
   border: 1px solid #ddd;
-  width: 25%; /* Adjust this as needed for your table layout */
+  width: 25%; 
+} */
+
+ /* Ensuring the container can handle horizontal and vertical scrolling */
+ .scroll-container {
+  width: 825px; /* Set the desired width */
+  max-height: 900px; /* Set the maximum height for the table */
+  overflow: auto; /* Enable both vertical and horizontal scrolling */
+  position: absolute;
+  top: 100px;
+  left: 30px;
 }
+
+#mini1 {
+  width: 100%;
+  border-collapse: collapse; /* Ensure borders collapse */
+  table-layout: fixed; /* Ensures table layout remains fixed */
+}
+
+#mini1 thead {
+  display: table;
+  padding-left: 20px;
+  width: calc(100% - 17px); /* Adjust for scrollbar width */
+  table-layout: fixed; /* Ensures table layout remains fixed */
+}
+
+#mini1 tbody {
+  display: block; /* Allows tbody to be scrollable */
+  max-height: 650px; /* Adjust this value as needed */
+  overflow-y: scroll;
+  overflow-x: hidden; /* Prevent horizontal overflow */
+  width: 100%;
+}
+
+#mini1 tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+#mini1 th, #mini1 td {
+  padding: 8px;
+  text-align: left;
+  border: 1px solid #ddd;
+  box-sizing: border-box; /* Include padding and border in width */
+}
+
+.scroll-container::-webkit-scrollbar {
+  height: 10px; /* Set the height for the horizontal scrollbar */
+}
+
+.scroll-container::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 5px;
+}
+
+.scroll-container::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+
 
 #datas {
   font-size: 1rem;
@@ -195,7 +253,7 @@ th {
   font-size: larger;
 }
 #usecase-table {
-  width: 1050px;
+  width: 1025px;
   border-collapse: collapse;
   position: relative;
   top: 130px;
@@ -275,9 +333,9 @@ th {
 .toggle-bar {
   position: fixed;
   top: 65px;
-  right: -600px; /* initially off-screen */
+  right: -900px; /* initially off-screen */
   height: 100%;
-  width: 600px;
+  width: 900px;
   background-color: #fff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   transition: right 0.3s ease; /* animate the right property */
@@ -328,6 +386,7 @@ th {
   transition: all 250ms;
   font-family: sans-serif;
   background-color: #38d845;
+  margin-left: 430px;
 }
 .scrollable-cell3 {
   max-width: 150px; /* Adjust the height as needed */

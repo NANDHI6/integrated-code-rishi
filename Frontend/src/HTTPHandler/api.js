@@ -1,3 +1,4 @@
+import { Email } from "@mui/icons-material";
 import api from "./axiosConfig";
 import axios from 'axios';
 
@@ -139,5 +140,51 @@ export const getProductiveData = async (startDate, endDate) => {
   }
 };
 
+// for permisssion data
+export const sendPermissionRequest = async (userEmail,currentDate, startTime, endTime, reason) => {
+  try {
+    const response = await api.post("/permissions", {
+      Email:userEmail,
+      currentdate: currentDate,
+      starttime: startTime,
+      endtime: endTime,
+      reason: reason,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+export const getPermissionsAdmin = async () => {
+  try {
+    const response = await api.get("/permissions");
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
 
 
+export const getPermissions = async (userEmail) => {
+  try {
+    const response = await axios.get(`http://localhost:4023/permissions/${userEmail}`);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+export const updatePermissionStatus = async (id, status) => {
+  try {
+    const response = await api.put(`/permissions/${id}`, { status });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+
+}

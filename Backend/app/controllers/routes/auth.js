@@ -15,6 +15,10 @@ router.use(express.json());
 
 
 
+
+
+
+
 //productive hours calculation 
 // router.get("/productive", (req, res) => {
 //   const sql = `SELECT 
@@ -77,6 +81,134 @@ router.use(express.json());
 //       .json(new GenericResponse(ResponseStatus.Success, null, data));
 //   });
 // });
+
+
+// router.post('/permissions', (req, res) => {
+//   const { currentDate, startTime, endTime, reason } = req.body;
+
+//   if (!currentDate || !startTime || !endTime || !reason) {
+//     return res.status(400).json({ message: 'All fields are required' });
+//   }
+
+//   const newPermission = {
+//     id: permissions.length + 1,
+//     currentDate,
+//     startTime,
+//     endTime,
+//     reason,
+//     status: 'Pending',
+//   };
+
+//   permissions.push(newPermission);
+//   res.status(201).json({ message: 'Permission request submitted', newPermission });
+// });
+
+// Endpoint to fetch all permissions (admin)
+
+// router.post("/permissions", (req, res) => {
+//   const sql = "INSERT INTO permissions (Email, currentdate, starttime, endtime, reason) VALUES (?, ?, ?, ?, ?)";
+
+//   const { Email, currentDate, startTime, endTime, reason } = req.body;
+
+//   const values = [Email, currentDate, startTime, endTime, reason];
+
+//   db.query(sql, values, (err) => {
+//     if (err) {
+//       console.error("Database error:", err);
+//       return res.status(500).json({ error: "Error inserting data into permissions table" });
+//     }
+//     return res.status(201).json({ message: "Data inserted into permissions table successfully" });
+//   });
+// });
+
+
+// router.post("/permissions", (req, res) => {
+//   const sql = "INSERT INTO permissions (Email, currentdate, starttime, endtime, reason) VALUES (?, ?, ?, ?, ?)";
+//   const { Email, currentdate, starttime, endtime, reason } = req.body;
+
+//   const values = [Email, currentdate, starttime, endtime, reason];
+
+//   db.query(sql, values, (err, result) => {
+//     if (err) {
+//       console.error("Database error:", err);
+//       return res.status(500).json({ error: "Error inserting data into permissions table" });
+//     }
+//     console.log("Inserted ID:", result.insertId);
+//     return res.status(201).json({ message: "Data inserted into permissions table successfully" });
+//   });
+// });
+
+router.put("/permissions/:id", (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+  const sql = "UPDATE permissions SET status = ? WHERE id = ?";
+  db.query(sql, [status, id], (err, results) => {
+    if (err) {
+      console.error("Database error:", err);
+      return res.status(500).json({ error: "Error updating data in permissions table" });
+    }
+    return res.status(200).json({ message: "Permission status updated" });
+  });
+});
+
+
+
+
+
+router.post("/permissions", (req, res) => {
+  const { Email, currentdate, starttime, endtime, reason } = req.body;
+
+  // Check if Email is provided and not null
+  if (!Email) {
+    return res.status(400).json({ error: "Email is required" });
+  }
+
+  const sql = "INSERT INTO permissions (Email, currentdate, starttime, endtime, reason) VALUES (?, ?, ?, ?, ?)";
+  const values = [Email, currentdate, starttime, endtime, reason];
+
+  db.query(sql, values, (err, result) => {
+    if (err) {
+      console.error("Database error:", err);
+      return res.status(500).json({ error: "Error inserting data into permissions table" });
+    }
+    console.log("Inserted ID:", result.insertId);
+    return res.status(201).json({ message: "Data inserted into permissions table successfully" });
+  });
+});
+
+// Route to get all permission requests
+router.get("/permissions", (req, res) => {
+  const sql = "SELECT * FROM permissions";
+
+  db.query(sql, (err, results) => {
+    if (err) {
+      console.error("Database error:", err);
+      return res.status(500).json({ error: "Error fetching data from permissions table" });
+    }
+    return res.status(200).json(results);
+  });
+});
+
+
+// Route to get permission requests for a specific user
+router.get("/permissions/:email", (req, res) => {
+  const { email } = req.params;
+
+  const sql = "SELECT * FROM permissions WHERE Email = ?";
+  db.query(sql, [email], (err, results) => {
+    if (err) {
+      console.error("Database error:", err);
+      return res.status(500).json({ error: "Error fetching data from permissions table" });
+    }
+    return res.status(200).json(results);
+  });
+});
+
+
+
+
+
+
 router.get("/productive", (req, res) => {
   let { startDate, endDate } = req.query;
 

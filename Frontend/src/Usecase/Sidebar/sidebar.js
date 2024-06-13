@@ -53,6 +53,41 @@ const Sidebar1 = () => {
               </span>
              <Link to="/main" style={{textDecoration:"none"}}> <p className="navbar-item">Attendance</p></Link>
             </button>
+            {selectedItem === "AttendanceManagement" && (
+              <>
+               <div id="proj-div3">
+                
+                
+                <Link to="/permission" style={{ textDecoration: "none" }}className="material-symbols-outlined">
+                  <button type="button"id="nav-button">
+                    <span >
+                      Permission
+                    </span>
+                  </button>
+                </Link>
+                <Link to="/viewpermission" style={{ textDecoration: "none" }}className="material-symbols-outlined">
+                  <button type="button"id="nav-button">
+                    <span >
+                     ViewPermission
+                    </span>
+                  </button>
+                </Link>
+
+                {roleid === 1 && (
+                <Link to="/pendingapprovel" style={{ textDecoration: "none" }}className="material-symbols-outlined">
+                  <button type="button"id="nav-button">
+                    <span >
+                      {/* <FaUserCircle /> */}
+                      PendingApprovel
+                    </span>
+                    {/* <p className="navbar-item2">Pending for Approvel</p> */}
+                  </button>
+                </Link>
+                )}
+               
+                </div> 
+              </>
+            )}
             
             <button type="button" onClick={handleProjectManagementClick}>
               <span>

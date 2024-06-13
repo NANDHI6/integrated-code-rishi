@@ -30,7 +30,11 @@ import "./Usecase/Allpages/usecase.css"
 import { UsecaseReadEdit } from "./Usecase/Allpages/usecaseReadEdit.js";
 import "./Usecase/Allpages/usecaseReadEdit.css"
 import { ProtectedRoute } from "./CommonComponenets/ProtectedRoute/protectedRoute.jsx";
+import { Permission } from "./pages/permission/permission.js";
+import "./pages/permission/permission.css"
+import { Viewpermissions } from "./pages/permission/viewpermission.js";
 
+import { Pendingapprovel } from "./pages/permission/pendingapprovel.js";
 function App() {
   return (
     <div className="App">
@@ -74,6 +78,39 @@ function App() {
                 <>
                   <Sidebar1 />
                   <Datas />
+                </>
+              }
+            />
+               <Route
+              path="/permission"
+              element={
+                <>
+                 <Permission/>
+
+                  <Sidebar1 />
+                  
+                </>
+              }
+            />
+
+           <Route
+              path="/viewpermission"
+              element={
+                <>
+               <Viewpermissions/>
+                  <Sidebar1 />
+                  
+                </>
+              }
+            />
+
+         <Route
+              path="/pendingapprovel"
+              element={
+                <>
+                 <Pendingapprovel/>
+                  <Sidebar1 />
+                  
                 </>
               }
             />
