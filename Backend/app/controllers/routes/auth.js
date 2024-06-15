@@ -7,6 +7,7 @@ const db = require("../../node-mysql-server/db-con");
 const { GenericResponse, ResponseStatus } = require("../../../GenericResponse");
 const ErrorMessage = require("../../../ErrorMessage");
 const { SendEmail } = require("../../Services/EmailService/EmailServe");
+const { calculateProductiveHours } = require('./productivetimer.js');
 
 router.use(express.json());
 
@@ -207,7 +208,7 @@ router.get("/permissions/:email", (req, res) => {
 
 
 
-
+// productive hours
 
 router.get("/productive", (req, res) => {
   let { startDate, endDate } = req.query;
@@ -269,6 +270,44 @@ router.get("/productive", (req, res) => {
     res.json({ Status: "Success", Response: results });
   });
 });
+
+
+
+//productive hours in Fetch Raw Data from Database
+
+
+// router.get("/productive", (req, res) => {
+//   let { startDate, endDate } = req.query;
+
+//   // If startDate and endDate are not provided, set them to today's date
+//   if (!startDate || !endDate) {
+//     const today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
+//     startDate = today;
+//     endDate = today;
+//   }
+
+//   const sql = `
+//     SELECT 
+//       Userid,
+//       Date,
+//       activity_type,
+//       time
+//     FROM 
+//       pulsedb.time_table
+//     WHERE 
+//       Date BETWEEN ? AND ?
+//     ORDER BY 
+//       Userid, Date, time`;
+
+//   db.query(sql, [startDate, endDate], (err, results) => {
+//     if (err) {
+//       console.error("Error executing query:", err);
+//       return res.status(500).json({ error: "An error occurred while fetching data." });
+//     }
+//     const processedData = calculateProductiveHours(results);
+//     res.json({ Status: "Success", Response: processedData });
+//   });
+// });
 
 
 

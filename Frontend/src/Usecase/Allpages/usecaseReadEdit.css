@@ -80,7 +80,7 @@
 #mini1 thead {
   display: table;
   padding-left: 20px;
-  width: calc(100% - 17px); /* Adjust for scrollbar width */
+  width: calc(100% - 19px); /* Adjust for scrollbar width */
   table-layout: fixed; /* Ensures table layout remains fixed */
 }
 
@@ -393,5 +393,13 @@ th {
  max-height: 10px;
   overflow-y: auto;
   padding: 10px; /* Optional: Adjust padding as needed */
+  
+}
+
+.scrollable-cell4 {
+  max-width: 100px; /* Adjust the height as needed */
+ max-height: 10px;
+  overflow-y: auto;
+  padding: 5px; /* Optional: Adjust padding as needed */
   
 }

@@ -1684,3 +1684,275 @@ export default Datas;
 
 // export default Datas;
 
+
+
+
+
+
+
+
+
+// //new code calculation in node.
+// import React, { useState, useEffect } from "react";
+// import { WiCloudDown } from "react-icons/wi";
+// import { NavLink } from "react-router-dom";
+// import "./datas.css";
+// import { useSelector } from "react-redux";
+// import { fetchAllData, fetchSingleData, getProductiveData } from "../../HTTPHandler/api";
+// import { Box, Button } from "@mui/material";
+// import { toast } from "react-toastify";
+// import api from '../../HTTPHandler/api'; // Ensure api is imported correctly
+
+// const Datas = () => {
+//   const data = useSelector((state) => state.auth.user);
+//   const [userData, setUserData] = useState([]);
+//   const [filteredUserData, setFilteredUserData] = useState([]);
+//   const [error, setError] = useState(null);
+//   const [searchEmail, setSearchEmail] = useState("");
+//   const [startDate, setStartDate] = useState("");
+//   const [endDate, setEndDate] = useState("");
+//   const [productiveData, setProductiveData] = useState([]);
+//   const [selectedDate, setSelectedDate] = useState("");
+
+//   useEffect(() => {
+//     if (data && data.RoleId === 1) {
+//       fetchUserData();
+//     } else {
+//       fetchSingleUserData();
+//     }
+//   }, [data]);
+
+//   useEffect(() => {
+//     // Update filteredUserData whenever userData changes
+//     setFilteredUserData(userData);
+//   }, [userData]);
+
+//   const fetchSingleUserData = () => {
+//     fetchSingleData(data.Email)
+//       .then((response) => {
+//         setUserData(response.Response);
+//       })
+//       .catch((error) => {
+//         console.error("Error fetching data:", error);
+//         setError("Error fetching user data. Please try again later.");
+//       });
+//   };
+
+//   const fetchUserData = () => {
+//     fetchAllData(data)
+//       .then((response) => {
+//         setUserData(response.data);
+//       })
+//       .catch((error) => {
+//         console.error("Error fetching user data:", error);
+//         setError("Error fetching user data. Please try again later.");
+//       });
+//   };
+
+//   const handleSearch = () => {
+//     // Filter user data based on searchEmail
+//     const filteredData = userData.filter((user) =>
+//       user.Userid.toLowerCase().includes(searchEmail.toLowerCase())
+//     );
+//     setFilteredUserData(filteredData);
+//   };
+
+//   const handleDownload = () => {
+//     const headers = ["User ID", "Date", "Time", "Activity Type", "Comments"];
+//     const rows = filteredUserData.map((row) => [
+//       row.Userid,
+//       row.Date,
+//       row.Time,
+//       row.Activity_type,
+//       row.Comments,
+//     ]);
+//     const csvContent =
+//       "data:text/csv;charset=utf-8," +
+//       [headers, ...rows].map((row) => row.join(",")).join("\n");
+//     const encodedUri = encodeURI(csvContent);
+//     const link = document.createElement("a");
+//     link.setAttribute("href", encodedUri);
+//     link.setAttribute("download", "filtered_data.csv");
+//     document.body.appendChild(link);
+//     link.click();
+//     document.body.removeChild(link);
+//   };
+
+//   const handleStartDateChange = (e) => {
+//     setStartDate(e.target.value);
+//   };
+
+//   const handleEndDateChange = (e) => {
+//     setEndDate(e.target.value);
+//   };
+
+//   const handleSearchByDate = () => {
+//     if (!startDate || !endDate) {
+//       toast.error("Please select both start date and end date");
+//       return;
+//     }
+
+//     getProductiveData(startDate, endDate)
+//       .then((response) => {
+//         if (response.Status === "Success") {
+//           setProductiveData(response.Response);
+//         } else {
+//           toast.error("No data recorded in the selected date range");
+//         }
+//       })
+//       .catch((error) => {
+//         console.error("Error fetching data:", error);
+//         toast.error("No data recorded in the selected date range");
+//       });
+//   };
+
+//   const handleDateChange = (e) => {
+//     const date = e.target.value; // Date in YYYY-MM-DD format
+//     setSelectedDate(date);
+//   };
+
+//   return (
+//     <div
+//       style={{
+//         width: "100%",
+//         height: "100%",
+//         display: "flex",
+//         justifyContent: "center",
+//         alignItems: "center",
+//       }}
+//     >
+//       <div className="admincon" style={{ width: "80%", height: "75%" }}>
+//         <div
+//           className="display back"
+//           style={{
+//             display: "flex",
+//             justifyContent: "space-between",
+//             alignItems: "center",
+//           }}
+//         >
+//           <Box style={{ fontWeight: "800", fontSize: "30px" }}>
+//             {data.RoleId === 1 ? "User Data" : "Time Logs"}
+//           </Box>
+//         </div>
+//         <div className="marquee">
+//           <marquee>
+//             Any violation will be treated as a security incident and referred to HR for appropriate disciplinary action
+//           </marquee>
+//         </div>
+//         <div className="search-container" style={{ width: "100%", textAlign: "center" }}>
+//           {data.RoleId === 1 ? (
+//             <div className="date" style={{ width: "100%", height: "50px" }}>
+//               <input
+//                 type="date"
+//                 onChange={handleStartDateChange}
+//                 style={{
+//                   width: "130px",
+//                   height: "30px",
+//                   paddingLeft: "10px",
+//                 }}
+//               />
+//               <input
+//                 type="date"
+//                 onChange={handleEndDateChange}
+//                 style={{
+//                   width: "130px",
+//                   height: "30px",
+//                   paddingLeft: "10px",
+//                 }}
+//               />
+//               <button onClick={handleSearchByDate} className="search">
+//                 Search
+//               </button>
+
+//               {/* <input
+//                 type="text"
+//                 placeholder="Search by email"
+//                 value={searchEmail}
+//                 onChange={(e) => setSearchEmail(e.target.value)}
+//               />
+//               <button
+//                 onClick={handleSearch}
+//                 className="search-button"
+//               >
+//                 Search
+//               </button> */}
+//               <button
+//                 onClick={handleDownload}
+//                 className="download-button"
+//                 style={{ position: "relative", left: "210px" }}
+//               >
+//                 <WiCloudDown size={25} />
+//               </button>
+//               <div className="productive-data-container">
+//                 <table>
+//                   <thead>
+//                     <tr>
+//                       <th>User ID</th>
+//                       <th>Date</th>
+//                       <th>Time In</th>
+//                       <th>BreakIn/Out</th>
+//                       <th>Lunch In/Out</th>
+//                       <th>Time Out</th>
+//                       <th>Productive Hours</th>
+//                       <th>Non-Productive Hours</th>
+//                     </tr>
+//                   </thead>
+//                   <tbody>
+//                     {productiveData && productiveData.map((user, index) => (
+//                       <tr key={`${user.Userid}-${index}`}>
+//                         <td>{user.Userid}</td>
+//                         <td>{user.Date}</td>
+//                         <td>{user.time_in}</td>
+//                         <td>{user.break_duration}</td>
+//                         <td>{user.lunch_duration}</td>
+//                         <td>{user.time_out}</td>
+//                         <td>{user.productive_hours}</td>
+//                         <td>{user.non_productive_hours}</td>
+//                       </tr>
+//                     ))}
+//                   </tbody>
+//                 </table>           
+//                    </div>
+//             </div>
+//           ) : (
+//             <div>
+//               <div className="date" style={{ width: "100%", height: "50px" }}>
+//                 <table>
+//                   <thead>
+//                     <tr>
+//                       <th>User ID</th>
+//                       <th>Date</th>
+//                       <th>Time</th>
+//                       <th>Activity Type</th>
+//                       <th>Comments</th>
+//                     </tr>
+//                   </thead>
+//                   <tbody>
+//                     {filteredUserData.map((user) => (
+//                       <tr key={user.id}>
+//                         <td>{user.Userid}</td>
+//                         <td>{user.Date}</td>
+//                         <td>{user.Time}</td>
+//                         <td>{user.Activity_type}</td>
+//                         <td>{user.Comments}</td>
+//                       </tr>
+//                     ))}
+//                   </tbody>
+//                 </table>
+//               </div>
+//             </div>
+//           )}
+//         </div>
+//       </div>
+//       <div className="containerback" style={{ textAlign: "center", marginTop: "20px" }}>
+//         <NavLink to="/main" style={{ textDecoration: "none" }}>
+//           <Button variant="contained" href="#contained-buttons">
+//             Back
+//           </Button>
+//         </NavLink>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default Datas;

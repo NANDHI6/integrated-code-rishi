@@ -217,7 +217,7 @@ export const UsecaseReadEdit = () => {
           <tr>
             <th>Title</th>
             <th>Summary</th>
-            <th>Description</th>
+            <th className="scrollable-cell3">Description</th>
             <th>Team</th>
             <th>Status</th>
             <th>End Date</th>
@@ -431,7 +431,7 @@ export const UsecaseReadEdit = () => {
                   taskData.map((obj) => (
                     <tr key={obj.ID}>
                       <td style={{ width: "35%" }}>{obj.usecasetitle}</td>
-                      <td style={{ width: "40%" }}>{obj.Dailytask}</td>
+                      <td style={{ width: "40%" }}className="scrollable-cell4">{obj.Dailytask}</td>
                       <td style={{ width: "35%" }}>{obj.Date.substring(0, 10)}</td>
                       <td style={{ width: "35%" }}>{obj.Time}</td>
                     </tr>
