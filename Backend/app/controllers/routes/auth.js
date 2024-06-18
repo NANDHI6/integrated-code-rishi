@@ -21,67 +21,67 @@ router.use(express.json());
 
 
 //productive hours calculation 
-// router.get("/productive", (req, res) => {
-//   const sql = `SELECT 
-//   Userid,
-//   MAX(Date) AS Date,
-//   timein AS time_in,
-//   timeout AS time_out,
-//   breakin,
-//   breakout,
-//   SEC_TO_TIME(IFNULL(TIME_TO_SEC(TIMEDIFF(breakout, breakin)), 0)) AS break_duration,
-//   lunchin,
-//   lunchout,
-//   SEC_TO_TIME(IFNULL(TIME_TO_SEC(TIMEDIFF(lunchout, lunchin)), 0)) AS lunch_duration,
-//   SEC_TO_TIME(
-//       TIME_TO_SEC(TIMEDIFF(timeout, timein)) - 
-//       IFNULL(TIME_TO_SEC(TIMEDIFF(breakout, breakin)), 0) - 
-//       IFNULL(TIME_TO_SEC(TIMEDIFF(lunchout, lunchin)), 0)
-//   ) AS productive_hours,
-//   SEC_TO_TIME(
-//       IFNULL(TIME_TO_SEC(TIMEDIFF(breakout, breakin)), 0) + 
-//       IFNULL(TIME_TO_SEC(TIMEDIFF(lunchout, lunchin)), 0)
-//   ) AS non_productive_hours
-// FROM 
-//   (
-//       SELECT 
-//           Userid,
-//           MAX(Date) AS Date, -- Using MAX for Date
-//           MIN(CASE WHEN activity_type = 'Time In' THEN time END) AS timein,
-//           MAX(CASE WHEN activity_type = 'Time Out' THEN time END) AS timeout,
-//           MAX(CASE WHEN activity_type = 'breakin' THEN time END) AS breakin,
-//           MAX(CASE WHEN activity_type = 'breakout' THEN time END) AS breakout,
-//           MAX(CASE WHEN activity_type = 'lunchin' THEN time END) AS lunchin,
-//           MAX(CASE WHEN activity_type = 'lunchout' THEN time END) AS lunchout
-//       FROM 
-//           pulsedb.time_table
-//       WHERE 
-//           Date = UTC_DATE()
-//           // Date = '${req.query.attendanceDate}'
-//       GROUP BY
-//           Userid
-//   ) AS subquery
-// GROUP BY
-//   Userid`;
+router.get("/productive", (req, res) => {
+  const sql = `SELECT 
+  Userid,
+  MAX(Date) AS Date,
+  timein AS time_in,
+  timeout AS time_out,
+  breakin,
+  breakout,
+  SEC_TO_TIME(IFNULL(TIME_TO_SEC(TIMEDIFF(breakout, breakin)), 0)) AS break_duration,
+  lunchin,
+  lunchout,
+  SEC_TO_TIME(IFNULL(TIME_TO_SEC(TIMEDIFF(lunchout, lunchin)), 0)) AS lunch_duration,
+  SEC_TO_TIME(
+      TIME_TO_SEC(TIMEDIFF(timeout, timein)) - 
+      IFNULL(TIME_TO_SEC(TIMEDIFF(breakout, breakin)), 0) - 
+      IFNULL(TIME_TO_SEC(TIMEDIFF(lunchout, lunchin)), 0)
+  ) AS productive_hours,
+  SEC_TO_TIME(
+      IFNULL(TIME_TO_SEC(TIMEDIFF(breakout, breakin)), 0) + 
+      IFNULL(TIME_TO_SEC(TIMEDIFF(lunchout, lunchin)), 0)
+  ) AS non_productive_hours
+FROM 
+  (
+      SELECT 
+          Userid,
+          MAX(Date) AS Date, -- Using MAX for Date
+          MIN(CASE WHEN activity_type = 'Time In' THEN time END) AS timein,
+          MAX(CASE WHEN activity_type = 'Time Out' THEN time END) AS timeout,
+          MAX(CASE WHEN activity_type = 'breakin' THEN time END) AS breakin,
+          MAX(CASE WHEN activity_type = 'breakout' THEN time END) AS breakout,
+          MAX(CASE WHEN activity_type = 'lunchin' THEN time END) AS lunchin,
+          MAX(CASE WHEN activity_type = 'lunchout' THEN time END) AS lunchout
+      FROM 
+          pulsedb.time_table
+      WHERE 
+          Date = UTC_DATE()
+          // Date = '${req.query.attendanceDate}'
+      GROUP BY
+          Userid
+  ) AS subquery
+GROUP BY
+  Userid`;
  
-//   db.query(sql, (err, data) => {
-//     if (err) {
-//       return res
-//         .status(500)
-//         .json(
-//           new GenericResponse(
-//             ResponseStatus.Failure,
-//             ErrorMessage.DatabaseError,
-//             null
-//           )
-//         );
-//     }
+  db.query(sql, (err, data) => {
+    if (err) {
+      return res
+        .status(500)
+        .json(
+          new GenericResponse(
+            ResponseStatus.Failure,
+            ErrorMessage.DatabaseError,
+            null
+          )
+        );
+    }
  
-//     return res
-//       .status(200)
-//       .json(new GenericResponse(ResponseStatus.Success, null, data));
-//   });
-// });
+    return res
+      .status(200)
+      .json(new GenericResponse(ResponseStatus.Success, null, data));
+  });
+});
 
 
 // router.post('/permissions', (req, res) => {
@@ -139,6 +139,145 @@ router.use(express.json());
 //   });
 // });
 
+
+//--------------------------------------------------------------------
+
+// router.put("/permissions/:id", (req, res) => {
+//   const { id } = req.params;
+//   const { status } = req.body;
+//   const sql = "UPDATE permissions SET status = ? WHERE id = ?";
+//   db.query(sql, [status, id], (err, results) => {
+//     if (err) {
+//       console.error("Database error:", err);
+//       return res.status(500).json({ error: "Error updating data in permissions table" });
+//     }
+//     return res.status(200).json({ message: "Permission status updated" });
+//   });
+// });
+
+
+
+
+
+// router.post("/permissions", (req, res) => {
+//   const { Email, currentdate, starttime, endtime, reason } = req.body;
+
+//   // Check if Email is provided and not null
+//   if (!Email) {
+//     return res.status(400).json({ error: "Email is required" });
+//   }
+
+//   const sql = "INSERT INTO permissions (Email, currentdate, starttime, endtime, reason) VALUES (?, ?, ?, ?, ?)";
+//   const values = [Email, currentdate, starttime, endtime, reason];
+
+//   db.query(sql, values, (err, result) => {
+//     if (err) {
+//       console.error("Database error:", err);
+//       return res.status(500).json({ error: "Error inserting data into permissions table" });
+//     }
+//     console.log("Inserted ID:", result.insertId);
+//     return res.status(201).json({ message: "Data inserted into permissions table successfully" });
+//   });
+// });
+
+// // Route to get all permission requests
+// router.get("/permissions", (req, res) => {
+//   const sql = "SELECT * FROM permissions";
+
+//   db.query(sql, (err, results) => {
+//     if (err) {
+//       console.error("Database error:", err);
+//       return res.status(500).json({ error: "Error fetching data from permissions table" });
+//     }
+//     return res.status(200).json(results);
+//   });
+// });
+
+
+// // Route to get permission requests for a specific user
+// router.get("/permissions/:email", (req, res) => {
+//   const { email } = req.params;
+
+//   const sql = "SELECT * FROM permissions WHERE Email = ?";
+//   db.query(sql, [email], (err, results) => {
+//     if (err) {
+//       console.error("Database error:", err);
+//       return res.status(500).json({ error: "Error fetching data from permissions table" });
+//     }
+//     return res.status(200).json(results);
+//   });
+// });
+
+
+//-------------------------------------------------------------
+// Helper function to format date to YYYY-MM-DD
+const formatDate = (date) => {
+  const d = new Date(date);
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
+
+router.post("/permissions", (req, res) => {
+  const { Email, currentdate, starttime, endtime, reason } = req.body;
+
+  if (!Email) {
+    return res.status(400).json({ error: "Email is required" });
+  }
+
+  const formattedCurrentDate = formatDate(currentdate);
+
+  const sql = "INSERT INTO permissions (Email, currentdate, starttime, endtime, reason) VALUES (?, ?, ?, ?, ?)";
+  const values = [Email, formattedCurrentDate, starttime, endtime, reason];
+
+  db.query(sql, values, (err, result) => {
+    if (err) {
+      console.error("Database error:", err);
+      return res.status(500).json({ error: "Error inserting data into permissions table" });
+    }
+    console.log("Inserted ID:", result.insertId);
+    return res.status(201).json({ message: "Data inserted into permissions table successfully" });
+  });
+});
+
+router.get("/permissions", (req, res) => {
+  const sql = "SELECT * FROM permissions";
+
+  db.query(sql, (err, results) => {
+    if (err) {
+      console.error("Database error:", err);
+      return res.status(500).json({ error: "Error fetching data from permissions table" });
+    }
+
+    const formattedResults = results.map(result => ({
+      ...result,
+      currentdate: formatDate(result.currentdate)
+    }));
+
+    return res.status(200).json(formattedResults);
+  });
+});
+
+router.get("/permissions/:email", (req, res) => {
+  const { email } = req.params;
+
+  const sql = "SELECT * FROM permissions WHERE Email = ?";
+  db.query(sql, [email], (err, results) => {
+    if (err) {
+      console.error("Database error:", err);
+      return res.status(500).json({ error: "Error fetching data from permissions table" });
+    }
+
+    const formattedResults = results.map(result => ({
+      ...result,
+      currentdate: formatDate(result.currentdate)
+    }));
+
+    return res.status(200).json(formattedResults);
+  });
+});
+
 router.put("/permissions/:id", (req, res) => {
   const { id } = req.params;
   const { status } = req.body;
@@ -151,130 +290,7 @@ router.put("/permissions/:id", (req, res) => {
     return res.status(200).json({ message: "Permission status updated" });
   });
 });
-
-
-
-
-
-router.post("/permissions", (req, res) => {
-  const { Email, currentdate, starttime, endtime, reason } = req.body;
-
-  // Check if Email is provided and not null
-  if (!Email) {
-    return res.status(400).json({ error: "Email is required" });
-  }
-
-  const sql = "INSERT INTO permissions (Email, currentdate, starttime, endtime, reason) VALUES (?, ?, ?, ?, ?)";
-  const values = [Email, currentdate, starttime, endtime, reason];
-
-  db.query(sql, values, (err, result) => {
-    if (err) {
-      console.error("Database error:", err);
-      return res.status(500).json({ error: "Error inserting data into permissions table" });
-    }
-    console.log("Inserted ID:", result.insertId);
-    return res.status(201).json({ message: "Data inserted into permissions table successfully" });
-  });
-});
-
-// Route to get all permission requests
-router.get("/permissions", (req, res) => {
-  const sql = "SELECT * FROM permissions";
-
-  db.query(sql, (err, results) => {
-    if (err) {
-      console.error("Database error:", err);
-      return res.status(500).json({ error: "Error fetching data from permissions table" });
-    }
-    return res.status(200).json(results);
-  });
-});
-
-
-// Route to get permission requests for a specific user
-router.get("/permissions/:email", (req, res) => {
-  const { email } = req.params;
-
-  const sql = "SELECT * FROM permissions WHERE Email = ?";
-  db.query(sql, [email], (err, results) => {
-    if (err) {
-      console.error("Database error:", err);
-      return res.status(500).json({ error: "Error fetching data from permissions table" });
-    }
-    return res.status(200).json(results);
-  });
-});
-
-
-
-
 // productive hours
-
-router.get("/productive", (req, res) => {
-  let { startDate, endDate } = req.query;
-
-  // If startDate and endDate are not provided, set them to today's date
-  if (!startDate || !endDate) {
-    const today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
-    startDate = today;
-    endDate = today;
-  }
-
-  const sql = `
-    SELECT 
-      Userid,
-      Date,
-      timein AS time_in,
-      timeout AS time_out,
-      breakin,
-      breakout,
-      SEC_TO_TIME(IFNULL(TIME_TO_SEC(TIMEDIFF(breakout, breakin)), 0)) AS break_duration,
-      lunchin,
-      lunchout,
-      SEC_TO_TIME(IFNULL(TIME_TO_SEC(TIMEDIFF(lunchout, lunchin)), 0)) AS lunch_duration,
-      SEC_TO_TIME(
-          TIME_TO_SEC(TIMEDIFF(timeout, timein)) - 
-          IFNULL(TIME_TO_SEC(TIMEDIFF(breakout, breakin)), 0) - 
-          IFNULL(TIME_TO_SEC(TIMEDIFF(lunchout, lunchin)), 0)
-      ) AS productive_hours,
-      SEC_TO_TIME(
-          IFNULL(TIME_TO_SEC(TIMEDIFF(breakout, breakin)), 0) + 
-          IFNULL(TIME_TO_SEC(TIMEDIFF(lunchout, lunchin)), 0)
-      ) AS non_productive_hours
-    FROM 
-      (
-          SELECT 
-              Userid,
-              Date,
-              MIN(CASE WHEN activity_type = 'Time In' THEN time END) AS timein,
-              MAX(CASE WHEN activity_type = 'Time Out' THEN time END) AS timeout,
-              MAX(CASE WHEN activity_type = 'breakin' THEN time END) AS breakin,
-              MAX(CASE WHEN activity_type = 'breakout' THEN time END) AS breakout,
-              MAX(CASE WHEN activity_type = 'lunchin' THEN time END) AS lunchin,
-              MAX(CASE WHEN activity_type = 'lunchout' THEN time END) AS lunchout
-          FROM 
-              pulsedb.time_table
-          WHERE 
-              Date BETWEEN ? AND ?
-          GROUP BY
-              Userid, Date
-      ) AS subquery
-    GROUP BY
-      Userid, Date`;
-
-  db.query(sql, [startDate, endDate], (err, results) => {
-    if (err) {
-      console.error("Error executing query:", err);
-      return res.status(500).json({ error: "An error occurred while fetching data." });
-    }
-    res.json({ Status: "Success", Response: results });
-  });
-});
-
-
-
-//productive hours in Fetch Raw Data from Database
-
 
 // router.get("/productive", (req, res) => {
 //   let { startDate, endDate } = req.query;
@@ -285,6 +301,64 @@ router.get("/productive", (req, res) => {
 //     startDate = today;
 //     endDate = today;
 //   }
+
+//   const sql = `
+//     SELECT 
+//       Userid,
+//       Date,
+//       timein AS time_in,
+//       timeout AS time_out,
+//       breakin,
+//       breakout,
+//       SEC_TO_TIME(IFNULL(TIME_TO_SEC(TIMEDIFF(breakout, breakin)), 0)) AS break_duration,
+//       lunchin,
+//       lunchout,
+//       SEC_TO_TIME(IFNULL(TIME_TO_SEC(TIMEDIFF(lunchout, lunchin)), 0)) AS lunch_duration,
+//       SEC_TO_TIME(
+//           TIME_TO_SEC(TIMEDIFF(timeout, timein)) - 
+//           IFNULL(TIME_TO_SEC(TIMEDIFF(breakout, breakin)), 0) - 
+//           IFNULL(TIME_TO_SEC(TIMEDIFF(lunchout, lunchin)), 0)
+//       ) AS productive_hours,
+//       SEC_TO_TIME(
+//           IFNULL(TIME_TO_SEC(TIMEDIFF(breakout, breakin)), 0) + 
+//           IFNULL(TIME_TO_SEC(TIMEDIFF(lunchout, lunchin)), 0)
+//       ) AS non_productive_hours
+//     FROM 
+//       (
+//           SELECT 
+//               Userid,
+//               Date,
+//               MIN(CASE WHEN activity_type = 'Time In' THEN time END) AS timein,
+//               MAX(CASE WHEN activity_type = 'Time Out' THEN time END) AS timeout,
+//               MAX(CASE WHEN activity_type = 'breakin' THEN time END) AS breakin,
+//               MAX(CASE WHEN activity_type = 'breakout' THEN time END) AS breakout,
+//               MAX(CASE WHEN activity_type = 'lunchin' THEN time END) AS lunchin,
+//               MAX(CASE WHEN activity_type = 'lunchout' THEN time END) AS lunchout
+//           FROM 
+//               pulsedb.time_table
+//           WHERE 
+//               Date BETWEEN ? AND ?
+//           GROUP BY
+//               Userid, Date
+//       ) AS subquery
+//     GROUP BY
+//       Userid, Date`;
+
+//   db.query(sql, [startDate, endDate], (err, results) => {
+//     if (err) {
+//       console.error("Error executing query:", err);
+//       return res.status(500).json({ error: "An error occurred while fetching data." });
+//     }
+//     res.json({ Status: "Success", Response: results });
+//   });
+// });
+
+
+
+//productive hours in Fetch Raw Data from Database
+
+// router.get("/productive", checkDates, (req, res, next) => {
+//   const { startDate, endDate } = req.query;
 
 //   const sql = `
 //     SELECT 
@@ -310,9 +384,9 @@ router.get("/productive", (req, res) => {
 // });
 
 
-
 const ActivityTypeList = [
   'Time In',
+  
   'Time Out',
   'lunchin',
   'lunchout',

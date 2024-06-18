@@ -58,7 +58,7 @@ const Sidebar1 = () => {
                <div id="proj-div3">
                 
                 
-                {/* <Link to="/permission" style={{ textDecoration: "none" }}className="material-symbols-outlined">
+               <Link to="/permission" style={{ textDecoration: "none" }}className="material-symbols-outlined">
                   <button type="button"id="nav-button">
                     <span >
                       Permission
@@ -71,9 +71,9 @@ const Sidebar1 = () => {
                      ViewPermission
                     </span>
                   </button>
-                </Link> */}
+                </Link> 
 
-                {/* {roleid === 1 && (
+      {roleid === 1 && (
                 <Link to="/pendingapprovel" style={{ textDecoration: "none" }}className="material-symbols-outlined">
                   <button type="button"id="nav-button">
                     <span >
@@ -82,7 +82,7 @@ const Sidebar1 = () => {
                     </span>
                   </button>
                 </Link>
-                )} */}
+                )} 
                
                 </div> 
               </>

@@ -278,14 +278,12 @@
 //     </>
 //   );
 // };
-import React, { useState , useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-
 import { toast } from "react-toastify";
-// import "react-toastify/dist/ReactToastify.css";
 import { sendPermissionRequest } from "../../HTTPHandler/api";
-import { Link, useNavigate } from "react-router-dom";
-import './permission.js'
+import { useNavigate } from "react-router-dom";
+import './permission.css'; // Changed to .css as .js is incorrect
 
 export const Permission = () => {
   const [currentDate, setCurrentDate] = useState("");
@@ -295,18 +293,24 @@ export const Permission = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-  
-  // Accessing user's email from Redux store
+
   const userEmail = useSelector((state) => state.auth.user?.Email);
 
-  // Set today's date as the default value and minimum selectable date
+  const formatDate = (date) => {
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
   useEffect(() => {
-    const today = new Date().toISOString().split('T')[0];
+    const today = formatDate(new Date());
     setCurrentDate(today);
   }, []);
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent default form submission
+    e.preventDefault();
     try {
       if (!currentDate || !startTime || !endTime || !reason) {
         setError("All fields are required");
@@ -321,7 +325,6 @@ export const Permission = () => {
       const response = await sendPermissionRequest(userEmail, currentDate, startTime, endTime, reason);
       console.log(response);
       toast.success("Permission request sent successfully!");
-      // Optionally, handle success response
     } catch (error) {
       setError(error.message);
       toast.error(error.message);
@@ -331,7 +334,7 @@ export const Permission = () => {
   };
 
   const handleDateChange = (e) => {
-    setCurrentDate(e.target.value);
+    setCurrentDate(formatDate(e.target.value));
   };
 
   const handleStartTimeChange = (e) => {
@@ -356,7 +359,7 @@ export const Permission = () => {
             type="date"
             id="currentDate"
             value={currentDate}
-            min={new Date().toISOString().split('T')[0]}
+            min={formatDate(new Date())}
             onChange={handleDateChange}
           />
         </div>
@@ -392,9 +395,6 @@ export const Permission = () => {
         <button className="submit-button" type="submit" disabled={isLoading}>
           {isLoading ? "Sending..." : "Send for Approval"}
         </button>
-        {/* <div className="view-permission-link">
-          <Link to="/viewpermission">View Permission</Link>
-        </div> */}
       </form>
     </div>
   );

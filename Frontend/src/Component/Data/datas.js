@@ -1701,7 +1701,6 @@ export default Datas;
 // import { fetchAllData, fetchSingleData, getProductiveData } from "../../HTTPHandler/api";
 // import { Box, Button } from "@mui/material";
 // import { toast } from "react-toastify";
-// import api from '../../HTTPHandler/api'; // Ensure api is imported correctly
 
 // const Datas = () => {
 //   const data = useSelector((state) => state.auth.user);
@@ -1806,11 +1805,6 @@ export default Datas;
 //       });
 //   };
 
-//   const handleDateChange = (e) => {
-//     const date = e.target.value; // Date in YYYY-MM-DD format
-//     setSelectedDate(date);
-//   };
-
 //   return (
 //     <div
 //       style={{
@@ -1864,18 +1858,6 @@ export default Datas;
 //                 Search
 //               </button>
 
-//               {/* <input
-//                 type="text"
-//                 placeholder="Search by email"
-//                 value={searchEmail}
-//                 onChange={(e) => setSearchEmail(e.target.value)}
-//               />
-//               <button
-//                 onClick={handleSearch}
-//                 className="search-button"
-//               >
-//                 Search
-//               </button> */}
 //               <button
 //                 onClick={handleDownload}
 //                 className="download-button"
@@ -1912,7 +1894,7 @@ export default Datas;
 //                     ))}
 //                   </tbody>
 //                 </table>           
-//                    </div>
+//               </div>
 //             </div>
 //           ) : (
 //             <div>
