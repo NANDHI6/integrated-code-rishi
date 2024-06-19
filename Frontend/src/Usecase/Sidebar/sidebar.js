@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaUserCircle } from "react-icons/fa";
+import { FaUserCircle ,FaClipboardList,FaClipboardCheck,FaHourglassHalf} from "react-icons/fa";
 import { RiAdminFill } from "react-icons/ri";
 import { FiMenu, FiArrowLeftCircle } from "react-icons/fi";
 import { Link } from 'react-router-dom';
@@ -61,15 +61,17 @@ const Sidebar1 = () => {
                <Link to="/permission" style={{ textDecoration: "none" }}className="material-symbols-outlined">
                   <button type="button"id="nav-button">
                     <span >
-                      Permission
+                      <FaClipboardList />
                     </span>
+                    Perm
                   </button>
                 </Link>
                 <Link to="/viewpermission" style={{ textDecoration: "none" }}className="material-symbols-outlined">
                   <button type="button"id="nav-button">
                     <span >
-                     ViewPermission
+                    <FaClipboardCheck/>
                     </span>
+                    View
                   </button>
                 </Link> 
 
@@ -77,9 +79,9 @@ const Sidebar1 = () => {
                 <Link to="/pendingapprovel" style={{ textDecoration: "none" }}className="material-symbols-outlined">
                   <button type="button"id="nav-button">
                     <span >
-
-                      PendingApprovel
+                      <FaHourglassHalf/>
                     </span>
+                    Pending
                   </button>
                 </Link>
                 )} 

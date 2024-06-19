@@ -148,6 +148,7 @@
 //     </div>
 //   );
 // };
+
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { getPermissionsAdmin, updatePermissionStatus } from "../../HTTPHandler/api";
@@ -220,14 +221,14 @@ export const Pendingapprovel = () => {
                 <button
                   className="approve-button"
                   onClick={() => handleApproval(permission.id, 'approved')}
-                  disabled={permission.disabled}
+                  disabled={permission.disabled || permission.status !== 'pending'}
                 >
                   Approve
                 </button>
                 <button
                   className="reject-button"
                   onClick={() => handleApproval(permission.id, 'rejected')}
-                  disabled={permission.disabled}
+                  disabled={permission.disabled || permission.status !== 'pending'}
                 >
                   Reject
                 </button>

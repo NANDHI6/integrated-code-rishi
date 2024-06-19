@@ -30,16 +30,31 @@ label {
 }
 
 input[type="date"],
-input[type="time"],
 textarea {
-  width: calc(100% - 10px);
-  padding: 5px;
+  width: 100%; /* Ensure full width */
+  padding: 8px;
   border: 1px solid #ccc;
   border-radius: 5px;
+  box-sizing: border-box; /* Ensure padding is included in width */
 }
 
 textarea {
   resize: vertical;
+}
+
+.time-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.time-select-group {
+  display: flex;
+  align-items: center;
+}
+
+.time-select {
+  width: 100%;
+  margin-right: 5px;
 }
 
 .error-message {
@@ -62,13 +77,22 @@ textarea {
   background-color: #cccccc;
 }
 
-.view-permission-link {
-  text-align: center;
-  margin-top: 20px;
+.time-picker-container {
+  position: relative;
 }
 
-.view-permission-link a {
-  text-decoration: none;
-  color: #007bff;
-  font-weight: bold;
+.time-picker {
+  position: absolute;
+  top: calc(100% + 5px);
+  left: 0;
+  z-index: 100;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  display: none;
+}
+
+.time-picker-container:hover .time-picker {
+  display: block;
 }
