@@ -20,7 +20,9 @@
   text-align: center;
   border: 1px solid black;
 }
-
+.permissions-table th{
+  border: 1px solid rgb(182, 87, 87);
+}
 .permissions-table th {
   background-color: rgb(178, 241, 178);
   position: sticky;

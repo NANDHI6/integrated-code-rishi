@@ -295,8 +295,6 @@
 
 //-----------------------------------------------------------------------------
 
-
-
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -316,20 +314,32 @@ export const Permission = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-  
+
   const userEmail = useSelector((state) => state.auth.user?.Email);
 
-  // Format date to YYYY-MM-DD
-  const formatDate = (date) => {
+  // Format date to DD/MM/YYYY
+  const formatDateToDisplay = (date) => {
     const d = new Date(date);
     const year = d.getFullYear();
     const month = String(d.getMonth() + 1).padStart(2, '0');
     const day = String(d.getDate()).padStart(2, '0');
+    return `${day}/${month}/${year}`;
+  };
+
+  // Format date to YYYY-MM-DD for input
+  const formatDateToInputValue = (date) => {
+    const [day, month, year] = date.split('/');
     return `${year}-${month}-${day}`;
   };
 
+  // Format date from YYYY-MM-DD to DD/MM/YYYY
+  const formatDateFromInputValue = (date) => {
+    const [year, month, day] = date.split('-');
+    return `${day}/${month}/${year}`;
+  };
+
   useEffect(() => {
-    const today = formatDate(new Date());
+    const today = formatDateToDisplay(new Date());
     setCurrentDate(today);
   }, []);
 
@@ -342,21 +352,30 @@ export const Permission = () => {
         return;
       }
 
+      // Convert selected time to 24-hour format for API consistency
+      const formattedStartTime = convertTo24HourFormat(startTimeHour, startTimeMinute, startTimeAmPm);
+      const formattedEndTime = convertTo24HourFormat(endTimeHour, endTimeMinute, endTimeAmPm);
+
+      // Check if end time is after start time
+      if (formattedEndTime <= formattedStartTime) {
+        setError("End time must be after start time");
+        toast.error("End time must be after start time");
+        return;
+      }
+
       setIsLoading(true);
       if (!userEmail) {
         throw new Error("User email not found");
       }
 
-      // Convert selected time to 24-hour format for API consistency
-      const formattedStartTime = convertTo24HourFormat(startTimeHour, startTimeMinute, startTimeAmPm);
-      const formattedEndTime = convertTo24HourFormat(endTimeHour, endTimeMinute, endTimeAmPm);
+      const formattedDateForSubmission = formatDateToInputValue(currentDate);
 
-      const response = await sendPermissionRequest(userEmail, currentDate, formattedStartTime, formattedEndTime, reason);
+      const response = await sendPermissionRequest(userEmail, formattedDateForSubmission, formattedStartTime, formattedEndTime, reason);
       console.log(response);
       toast.success("Permission request sent successfully!");
 
       // Clear form data after successful submission
-      setCurrentDate("");
+      setCurrentDate(formatDateToDisplay(new Date()));
       setStartTimeHour("00");
       setStartTimeMinute("00");
       setStartTimeAmPm("AM");
@@ -373,7 +392,9 @@ export const Permission = () => {
   };
 
   const handleDateChange = (e) => {
-    setCurrentDate(e.target.value);
+    const date = e.target.value;
+    const formattedDate = formatDateFromInputValue(date);
+    setCurrentDate(formattedDate);
   };
 
   const handleStartTimeHourChange = (e) => {
@@ -424,8 +445,8 @@ export const Permission = () => {
           <input
             type="date"
             id="currentDate"
-            value={currentDate}
-            min={formatDate(new Date())}
+            value={formatDateToInputValue(currentDate)}
+            min={formatDateToInputValue(formatDateToDisplay(new Date()))}
             onChange={handleDateChange}
           />
         </div>
@@ -477,7 +498,9 @@ export const Permission = () => {
             onChange={handleReasonChange}
             rows={4}
             cols={50}
+            maxLength={300} // Limit to 300 characters
           />
+          <div>{reason.length}/300</div> {/* Character counter */}
         </div>
         {error && <div className="error-message">Error: {error}</div>}
         <button className="submit-button" type="submit" disabled={isLoading}>

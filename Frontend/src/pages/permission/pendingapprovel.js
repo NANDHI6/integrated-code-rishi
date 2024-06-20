@@ -155,6 +155,7 @@ import { useSelector } from "react-redux";
 import { getPermissionsAdmin, updatePermissionStatus } from "../../HTTPHandler/api";
 import { toast } from "react-toastify";
 import './viewpermission.css';
+import { FaCheck,FaTimes } from "react-icons/fa";
 
 export const Pendingapprovel = () => {
   const [permissions, setPermissions] = useState([]);
@@ -224,14 +225,14 @@ export const Pendingapprovel = () => {
                   onClick={() => handleApproval(permission.id, 'approved')}
                   disabled={permission.disabled || permission.status !== 'pending'}
                 >
-                  Approve
+                   <FaCheck/>
                 </button>
                 <button
                   className="reject-button"
                   onClick={() => handleApproval(permission.id, 'rejected')}
                   disabled={permission.disabled || permission.status !== 'pending'}
                 >
-                  Reject
+                  <FaTimes/>
                 </button>
               </td>
             </tr>

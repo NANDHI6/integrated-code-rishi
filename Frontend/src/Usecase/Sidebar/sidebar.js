@@ -63,7 +63,7 @@ const Sidebar1 = () => {
                     <span >
                       <FaClipboardList />
                     </span>
-                    Perm
+                    Permission
                   </button>
                 </Link>
                 <Link to="/viewpermission" style={{ textDecoration: "none" }}className="material-symbols-outlined">
@@ -71,7 +71,7 @@ const Sidebar1 = () => {
                     <span >
                     <FaClipboardCheck/>
                     </span>
-                    View
+                    ViewPermission
                   </button>
                 </Link> 
 
@@ -81,7 +81,7 @@ const Sidebar1 = () => {
                     <span >
                       <FaHourglassHalf/>
                     </span>
-                    Pending
+                    Pendingapprovel
                   </button>
                 </Link>
                 )} 
