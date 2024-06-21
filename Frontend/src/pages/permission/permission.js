@@ -293,7 +293,7 @@
 
 
 
-//-----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
@@ -500,7 +500,7 @@ export const Permission = () => {
             cols={50}
             maxLength={300} // Limit to 300 characters
           />
-          <div>{reason.length}/300</div> {/* Character counter */}
+          <div className="length">{reason.length}/300</div> {/* Character counter */}
         </div>
         {error && <div className="error-message">Error: {error}</div>}
         <button className="submit-button" type="submit" disabled={isLoading}>
@@ -512,3 +512,7 @@ export const Permission = () => {
 };
 
 export default Permission;
+
+
+
+

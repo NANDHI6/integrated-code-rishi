@@ -157,6 +157,10 @@ import { toast } from "react-toastify";
 import './viewpermission.css';
 import { FaCheck,FaTimes } from "react-icons/fa";
 
+const capitalizeFirstLetter = (string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+};
+
 export const Pendingapprovel = () => {
   const [permissions, setPermissions] = useState([]);
   const userEmail = useSelector((state) => state.auth.user?.Email);
@@ -195,9 +199,9 @@ export const Pendingapprovel = () => {
     }
   };
 
-  return (
-    <div className="permissions-table">
-      <h2>Pending Approval Page</h2>
+  return (<div className="permissions-table">
+    <h2>Pending Approval Page</h2>
+    <div className="table-container">
       <table>
         <thead>
           <tr>
@@ -218,14 +222,14 @@ export const Pendingapprovel = () => {
               <td>{permission.starttime}</td>
               <td>{permission.endtime}</td>
               <td>{permission.reason}</td>
-              <td>{permission.status}</td>
+              <td>{capitalizeFirstLetter(permission.status)}</td>
               <td>
                 <button
                   className="approve-button"
                   onClick={() => handleApproval(permission.id, 'approved')}
                   disabled={permission.disabled || permission.status !== 'pending'}
                 >
-                   <FaCheck/>
+                  <FaCheck/>
                 </button>
                 <button
                   className="reject-button"
@@ -240,5 +244,8 @@ export const Pendingapprovel = () => {
         </tbody>
       </table>
     </div>
+  </div>  
   );
 };
+
+export default Pendingapprovel;

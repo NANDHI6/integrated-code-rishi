@@ -53,14 +53,13 @@
 //   );
 // };
 
-
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { getPermissions } from "../../HTTPHandler/api";
 import { toast } from "react-toastify";
-import './viewpermission.css'
+import './viewpermission.css';
 
-export  const Viewpermissions = () => {
+export const Viewpermissions = () => {
   const [permissions, setPermissions] = useState([]);
   const userEmail = useSelector((state) => state.auth.user?.Email);
 
@@ -78,6 +77,11 @@ export  const Viewpermissions = () => {
       console.error("Error fetching permissions:", error);
       toast.error("Error fetching permissions");
     }
+  };
+
+  // Function to capitalize the first letter of a string
+  const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
   };
 
   return (
@@ -102,7 +106,7 @@ export  const Viewpermissions = () => {
               <td>{permission.starttime}</td>
               <td>{permission.endtime}</td>
               <td>{permission.reason}</td>
-              <td>{permission.status}</td>
+              <td>{capitalizeFirstLetter(permission.status)}</td>
             </tr>
           ))}
         </tbody>
@@ -110,3 +114,5 @@ export  const Viewpermissions = () => {
     </div>
   );
 };
+
+export default Viewpermissions;

@@ -15,7 +15,7 @@
 }
 
 .sidebar-2.open {
-  width: 140px; 
+  width: 160px; 
 }
 
 .sidebar-2 .inner {
@@ -135,7 +135,7 @@ font-size: 9px;
 }
 #nav-button{
 display: flex;
-gap: 12px;
+gap: 5px;
 align-items: center;
 height: 44px;
 width: 44px;
@@ -143,11 +143,12 @@ font-family: "Poppins";
 font-size: 15px;
 text-transform: capitalize;
 line-height: 30px;
-padding: 0 12px;
+padding: 0 19px;
 border-radius: 8px;
 border: none;
 background-color: #5b7595 ;
 color: #f9f9f9;
+
 }
 
 .navbar-item2 {
