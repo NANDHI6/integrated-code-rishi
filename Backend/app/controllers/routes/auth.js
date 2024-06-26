@@ -21,67 +21,67 @@ router.use(express.json());
 
 
 //productive hours calculation 
-router.get("/productive", (req, res) => {
-  const sql = `SELECT 
-  Userid,
-  MAX(Date) AS Date,
-  timein AS time_in,
-  timeout AS time_out,
-  breakin,
-  breakout,
-  SEC_TO_TIME(IFNULL(TIME_TO_SEC(TIMEDIFF(breakout, breakin)), 0)) AS break_duration,
-  lunchin,
-  lunchout,
-  SEC_TO_TIME(IFNULL(TIME_TO_SEC(TIMEDIFF(lunchout, lunchin)), 0)) AS lunch_duration,
-  SEC_TO_TIME(
-      TIME_TO_SEC(TIMEDIFF(timeout, timein)) - 
-      IFNULL(TIME_TO_SEC(TIMEDIFF(breakout, breakin)), 0) - 
-      IFNULL(TIME_TO_SEC(TIMEDIFF(lunchout, lunchin)), 0)
-  ) AS productive_hours,
-  SEC_TO_TIME(
-      IFNULL(TIME_TO_SEC(TIMEDIFF(breakout, breakin)), 0) + 
-      IFNULL(TIME_TO_SEC(TIMEDIFF(lunchout, lunchin)), 0)
-  ) AS non_productive_hours
-FROM 
-  (
-      SELECT 
-          Userid,
-          MAX(Date) AS Date, -- Using MAX for Date
-          MIN(CASE WHEN activity_type = 'Time In' THEN time END) AS timein,
-          MAX(CASE WHEN activity_type = 'Time Out' THEN time END) AS timeout,
-          MAX(CASE WHEN activity_type = 'breakin' THEN time END) AS breakin,
-          MAX(CASE WHEN activity_type = 'breakout' THEN time END) AS breakout,
-          MAX(CASE WHEN activity_type = 'lunchin' THEN time END) AS lunchin,
-          MAX(CASE WHEN activity_type = 'lunchout' THEN time END) AS lunchout
-      FROM 
-          pulsedb.time_table
-      WHERE 
-          Date = UTC_DATE()
-          // Date = '${req.query.attendanceDate}'
-      GROUP BY
-          Userid
-  ) AS subquery
-GROUP BY
-  Userid`;
+// router.get("/productive", (req, res) => {
+//   const sql = `SELECT 
+//   Userid,
+//   MAX(Date) AS Date,
+//   timein AS time_in,
+//   timeout AS time_out,
+//   breakin,
+//   breakout,
+//   SEC_TO_TIME(IFNULL(TIME_TO_SEC(TIMEDIFF(breakout, breakin)), 0)) AS break_duration,
+//   lunchin,
+//   lunchout,
+//   SEC_TO_TIME(IFNULL(TIME_TO_SEC(TIMEDIFF(lunchout, lunchin)), 0)) AS lunch_duration,
+//   SEC_TO_TIME(
+//       TIME_TO_SEC(TIMEDIFF(timeout, timein)) - 
+//       IFNULL(TIME_TO_SEC(TIMEDIFF(breakout, breakin)), 0) - 
+//       IFNULL(TIME_TO_SEC(TIMEDIFF(lunchout, lunchin)), 0)
+//   ) AS productive_hours,
+//   SEC_TO_TIME(
+//       IFNULL(TIME_TO_SEC(TIMEDIFF(breakout, breakin)), 0) + 
+//       IFNULL(TIME_TO_SEC(TIMEDIFF(lunchout, lunchin)), 0)
+//   ) AS non_productive_hours
+// FROM 
+//   (
+//       SELECT 
+//           Userid,
+//           MAX(Date) AS Date, -- Using MAX for Date
+//           MIN(CASE WHEN activity_type = 'Time In' THEN time END) AS timein,
+//           MAX(CASE WHEN activity_type = 'Time Out' THEN time END) AS timeout,
+//           MAX(CASE WHEN activity_type = 'breakin' THEN time END) AS breakin,
+//           MAX(CASE WHEN activity_type = 'breakout' THEN time END) AS breakout,
+//           MAX(CASE WHEN activity_type = 'lunchin' THEN time END) AS lunchin,
+//           MAX(CASE WHEN activity_type = 'lunchout' THEN time END) AS lunchout
+//       FROM 
+//           pulsedb.time_table
+//       WHERE 
+//           Date = UTC_DATE()
+//           // Date = '${req.query.attendanceDate}'
+//       GROUP BY
+//           Userid
+//   ) AS subquery
+// GROUP BY
+//   Userid`;
  
-  db.query(sql, (err, data) => {
-    if (err) {
-      return res
-        .status(500)
-        .json(
-          new GenericResponse(
-            ResponseStatus.Failure,
-            ErrorMessage.DatabaseError,
-            null
-          )
-        );
-    }
+//   db.query(sql, (err, data) => {
+//     if (err) {
+//       return res
+//         .status(500)
+//         .json(
+//           new GenericResponse(
+//             ResponseStatus.Failure,
+//             ErrorMessage.DatabaseError,
+//             null
+//           )
+//         );
+//     }
  
-    return res
-      .status(200)
-      .json(new GenericResponse(ResponseStatus.Success, null, data));
-  });
-});
+//     return res
+//       .status(200)
+//       .json(new GenericResponse(ResponseStatus.Success, null, data));
+//   });
+// });
 
 
 // router.post('/permissions', (req, res) => {
@@ -353,12 +353,27 @@ router.put("/permissions/:id", (req, res) => {
 //   });
 // });
 
-
+//=================================================================================================
 
 //productive hours in Fetch Raw Data from Database
+// const checkDates = (req, res, next) => {
+//   let { startDate, endDate } = req.query;
+
+//   // If startDate and endDate are not provided, set them to today's date
+//   if (!startDate || !endDate) {
+//     const today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
+//     startDate = today;
+//     endDate = today;
+//   }
+
+//   req.query.startDate = startDate;
+//   req.query.endDate = endDate;
+
+//   next();
+// };
 
 // router.get("/productive", checkDates, (req, res, next) => {
-//   const { startDate, endDate } = req.query;
+//   let { startDate, endDate } = req.query;
 
 //   const sql = `
 //     SELECT 
@@ -370,7 +385,7 @@ router.put("/permissions/:id", (req, res) => {
 //       pulsedb.time_table
 //     WHERE 
 //       Date BETWEEN ? AND ?
-//     ORDER BY 
+//     ORDER BY
 //       Userid, Date, time`;
 
 //   db.query(sql, [startDate, endDate], (err, results) => {
@@ -378,10 +393,90 @@ router.put("/permissions/:id", (req, res) => {
 //       console.error("Error executing query:", err);
 //       return res.status(500).json({ error: "An error occurred while fetching data." });
 //     }
-//     const processedData = calculateProductiveHours(results);
-//     res.json({ Status: "Success", Response: processedData });
+
+//     const formattedResults = calculateProductiveHours(results);
+//     res.json({ Status: "Success", Response: formattedResults });
 //   });
 // });
+
+//=============================================================================
+
+
+
+
+
+
+
+
+
+
+// Middleware to check and set start and end dates
+const checkDates = (req, res, next) => {
+  let { startDate, endDate } = req.query;
+
+  // If startDate and endDate are not provided, set them to today's date
+  if (!startDate || !endDate) {
+    const today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
+    startDate = today;
+    endDate = today;
+  }
+
+  req.query.startDate = startDate;
+  req.query.endDate = endDate;
+
+  next();
+};
+
+// Route to fetch productive hours
+router.get("/productive", checkDates, (req, res) => {
+  let { startDate, endDate, email, userId } = req.query;
+
+  // SQL query to fetch data based on date range and optional email or userId filter
+  let sql = `
+    SELECT 
+      Userid,
+      Date,
+      activity_type,
+      time
+    FROM 
+      pulsedb.time_table
+    WHERE 
+      Date BETWEEN ? AND ?
+  `;
+
+  const params = [startDate, endDate];
+
+  if (email) {
+    sql += ' AND Email = ?';
+    params.push(email);
+  }
+
+  if (userId) {
+    sql += ' AND Userid = ?';
+    params.push(userId);
+  }
+
+  sql += ' ORDER BY Userid, Date, time';
+
+  db.query(sql, params, (err, results) => {
+    if (err) {
+      console.error("Error executing query:", err);
+      return res.status(500).json({ error: "An error occurred while fetching data." });
+    }
+
+    const formattedResults = calculateProductiveHours(results);
+    res.json({ Status: "Success", Response: formattedResults });
+  });
+});
+
+module.exports = router;
+
+
+
+
+
+
+
 
 
 const ActivityTypeList = [
