@@ -200,8 +200,9 @@ export const Pendingapprovel = () => {
   };
 
   return (<div className="permissions-table">
-    <h2>Pending Approval Page</h2>
+    {/* <h2>Pending Approval Page</h2> */}
     <div className="table-container">
+    <h2>Pending Approval Page</h2>
       <table>
         <thead>
           <tr>

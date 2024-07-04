@@ -470,7 +470,7 @@ const Datas = () => {
     <div style={{ width: "100%", height: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}>
       <div className="admincon" style={{ width: "80%", height: "75%" }}>
         <div className="display back" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <Box style={{ fontWeight: "800", fontSize: "30px" }}>
+          <Box style={{ fontWeight: "800", fontSize: "30px"}} className="nav">
             {data.RoleId === 1 ? "User Data" : "Time Logs"}
           </Box>
         </div>
@@ -482,15 +482,15 @@ const Datas = () => {
         <div className="search-container" style={{ width: "100%", textAlign: "center" }}>
           {data.RoleId === 1 ? (
             <div className="date" style={{ width: "100%", height: "50px" }}>
-              <input
+           <span>Start Date :</span> <input
                 type="date"
                 onChange={handleStartDateChange}
-                style={{ width: "130px", height: "30px", paddingLeft: "10px" }}
+                style={{ width: "145px", height: "30px", paddingLeft: "10px" }}
               />
-              <input
+        <span> End Date :</span> <input
                 type="date"
                 onChange={handleEndDateChange}
-                style={{ width: "130px", height: "30px", paddingLeft: "10px" }}
+                style={{ width: "145px", height: "30px", paddingLeft: "10px" }}
               />
               <button onClick={handleSearchByDate} className="search">
                 Search
@@ -500,7 +500,7 @@ const Datas = () => {
                 placeholder="Search by Email"
                 value={searchEmail}
                 onChange={handleEmailChange}
-                style={{ width: "200px", height: "30px", paddingLeft: "10px", marginLeft: "20px" }}
+                style={{ width: "200px", height: "30px", paddingLeft: "10px", marginLeft: "20px" ,padding:"10px"}}
               />
               <button onClick={handleEmailSearch} className="search">
                 Search 
@@ -508,7 +508,7 @@ const Datas = () => {
               <button
                 onClick={handleDownload}
                 className="download-button"
-                style={{ position: "relative", left: "185px" }}
+                style={{ position: "relative", left: "90px",top:"8px"}}
               >
                 <WiCloudDown size={25} />
               </button>

@@ -4,39 +4,42 @@
   align-items: center;
   min-height: 100vh;
   background-color: #f5f5f5;
-  font-family:"Roboto", "Helvetica", "Arial", sans-serif;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
 }
 
 .bord {
   background-color: white;
-  padding: 20px;
+  padding: 40px; /* Increased padding */
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  width: 400px;
+  width: 600px; /* Increased width */
 }
 
 h2 {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 30px; /* Increased margin */
+  font-size: 24px; /* Increased font size */
 }
 
 .form-group {
-  margin-bottom: 15px;
+  margin-bottom: 20px; /* Increased margin */
 }
 
 label {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 10px; /* Increased margin */
   font-weight: bold;
+  font-size: 18px; /* Increased font size */
 }
 
 input[type="date"],
 textarea {
   width: 100%; /* Ensure full width */
-  padding: 8px;
+  padding: 12px; /* Increased padding */
   border: 1px solid #ccc;
   border-radius: 5px;
   box-sizing: border-box; /* Ensure padding is included in width */
+  font-size: 16px; /* Increased font size */
 }
 
 textarea {
@@ -51,11 +54,13 @@ textarea {
 .time-select-group {
   display: flex;
   align-items: center;
+  gap: 10px; /* Added gap for better spacing */
 }
 
 .time-select {
   width: 100%;
-  margin-right: 5px;
+  padding: 8px; /* Added padding */
+  font-size: 16px; /* Increased font size */
 }
 
 .error-message {
@@ -65,12 +70,12 @@ textarea {
 
 .submit-button {
   width: 100%;
-  padding: 10px;
+  padding: 15px; /* Increased padding */
   border: none;
   background-color: #03da6e;
   color: white;
   border-radius: 5px;
-  font-size: 16px;
+  font-size: 18px; /* Increased font size */
   cursor: pointer;
 }
 
@@ -92,14 +97,17 @@ textarea {
   border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
   display: none;
-  
 }
 
 .time-picker-container:hover .time-picker {
   display: block;
 }
 
-.length{
-  padding-left: 320px;
+.length {
+  padding-left: 480px;
 }
 
+.required {
+  color: red;
+  margin-left: 5px;
+}

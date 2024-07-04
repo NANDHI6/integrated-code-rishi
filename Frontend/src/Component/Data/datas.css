@@ -7,8 +7,13 @@
 }
 
 .admincon table {
-  width: 100%; /* Make the table fill the container */
+  width: 95%; /* Make the table fill the container */
   border-collapse: collapse; /* Collapse table borders */
+  margin-left: 36px;
+
+}
+.nav{
+  margin-left: 35px;
 }
 
 .admincon th,
@@ -21,6 +26,7 @@
 .admincon th {
   background-color: rgb(178, 241, 178);
   position: sticky;
+
   top: 0;
   z-index: 2;
 }
@@ -48,6 +54,7 @@
   background-color: rgb(209, 154, 70);
   margin-left: 30px;
   border-radius: 5px;
+  margin-bottom: 9px;
 }
 
 .date {

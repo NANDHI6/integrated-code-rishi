@@ -3,15 +3,16 @@
   top: 200px;
   left: 160px;
   height: 520px;
-  max-width: 100%;
+  max-width: 85%;
   overflow: auto;
   width: 1230px;
   margin: auto; 
 }
 
 .permissions-table table {
-  width: 100%;
+  width: 98%;
   border-collapse: collapse;
+  margin-left: 10px;
 }
 
 .permissions-table th,
