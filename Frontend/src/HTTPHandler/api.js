@@ -116,17 +116,7 @@ export const getActivities = async (email, filter) => {
 };
 
 
-// export const getProductiveData = async (attendanceDate) => {
-//    console.log("hi",attendanceDate);
-//   try {
-//     const response = await api.get(`/productive?attendanceDate=${attendanceDate}`);
-//     console.log("all data",response.data); // Log the response data to check
-//     return response.data;
-//   } catch (error) {
-//     console.error('Error fetching productive data:', error);
-//     throw error;
-//   }
-// };
+
 export const getProductiveData = async (startDate, endDate) => {
   try {
     const response = await api.get(`/productive`, {
