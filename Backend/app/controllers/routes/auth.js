@@ -95,7 +95,49 @@ router.put("/permissions/:id", (req, res) => {
 });
 // productive hours
 
-// Middleware to check and set start and end dates
+
+
+//today date thuresday 16/7/2024
+
+router.get('/api/productive-data', (req, res) => {
+  const { startDate, endDate, searchEmail } = req.query;
+
+  // Example filtering based on query parameters
+  let filteredData = productiveData;
+  
+  if (startDate && endDate) {
+    filteredData = filteredData.filter((entry) => entry.Date >= startDate && entry.Date <= endDate);
+  }
+  
+  if (searchEmail) {
+    filteredData = filteredData.filter((entry) => entry.Userid === searchEmail);
+  }
+
+  res.json({ Status: 'Success', Response: filteredData });
+});
+
+// Route to handle fetching single data based on email
+router.get('/api/single-data', (req, res) => {
+  const { email } = req.query;
+
+  // Example finding single data based on email
+  const singleData = productiveData.find((entry) => entry.Userid === email);
+
+  if (singleData) {
+    res.json({ Status: 'Success', Response: singleData });
+  } else {
+    res.status(404).json({ Status: 'Error', Message: 'No data found' });
+  }
+});
+
+
+//for fetching single user id like user page navigation
+
+
+
+// // Middleware to check and set start and end dates
+
+
 const checkDates = (req, res, next) => {
   let { startDate, endDate } = req.query;
 
@@ -156,6 +198,64 @@ router.get("/productive", checkDates, (req, res) => {
 
 module.exports = router;
 
+
+//==========================================================================================
+
+
+//15/7/2024
+
+
+// // Middleware to set default dates if not provided
+// const checkDates = (req, res, next) => {
+//   let { startDate, endDate } = req.query;
+
+//   if (!startDate || !endDate) {
+//     const today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
+//     startDate = today;
+//     endDate = today;
+//   }
+
+//   req.query.startDate = startDate;
+//   req.query.endDate = endDate;
+
+//   next();
+// };
+
+// // Route to fetch productive hours for a specific user
+// router.get("/productive", checkDates, (req, res) => {
+//   let { startDate, endDate, email } = req.query;
+
+//   let sql = `
+//     SELECT 
+//       Userid,
+//       Date,
+//       activity_type,
+//       time
+//     FROM 
+//       pulsedb.time_table
+//     WHERE 
+//       Date BETWEEN ? AND ?
+//   `;
+
+//   const params = [startDate, endDate];
+
+//   if (email) {
+//     sql += ' AND Email = ?';
+//     params.push(email);
+//   }
+
+//   sql += ' ORDER BY Userid, Date, time';
+
+//   db.query(sql, params, (err, results) => {
+//     if (err) {
+//       console.error("Error executing query:", err);
+//       return res.status(500).json({ error: "An error occurred while fetching data." });
+//     }
+
+//     const formattedResults = calculateProductiveHours(results);
+//     res.json({ status: "Success", response: formattedResults });
+//   });
+// });
 
 
 

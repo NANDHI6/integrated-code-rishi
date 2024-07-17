@@ -79,7 +79,7 @@ const UserMenu = () => {
             alignItems: "center",
             backgroundColor: "#3c9ab0",
             width: "100%",
-            height: "12%",
+            height: "11%",
             position: "fixed",
             zIndex: 3,
           }}
@@ -87,11 +87,11 @@ const UserMenu = () => {
           <Box>
             <img width={170} height={70} src={pozentLogo} alt="Pozent" />
           </Box>
-          <Typography color={"white"}>ATTENDANCE MANAGEMENT SYSTEM</Typography>
+          <Typography color={"white"}><b>ATTENDANCE MANAGEMENT SYSTEM</b></Typography>
 
-          <Link to={"/allData"} className="li">
+          {/* <Link to={"/allData"} className="li">
             LOGS
-          </Link>
+          </Link> */}
           <Box mr={3}>
             <Avatar onClick={handleOpen} style={{ cursor: "pointer" }}></Avatar>
           </Box>

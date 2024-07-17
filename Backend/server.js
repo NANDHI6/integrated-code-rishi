@@ -51,7 +51,10 @@ app.use("/productive",routePath);
 
 app.use("/permissions",routePath);
 
-app.use("/user/:email/image",routePath);
+app.use("/api/productive-data",routePath);
+
+app.use("/api/single-data",routePath);
+// app.use("/productive/:email",routePath)
 
 const port = process.env.PORT || 4023;
 

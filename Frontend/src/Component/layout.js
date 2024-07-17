@@ -137,11 +137,7 @@ const Layout = () => {
         }}
       >
      
-        <div className="marquee">
-          <marquee>
-          Any violation will be treated as a security incident and referred to HR for appropriate diciplinary action
-          </marquee>
-        </div>
+        
       </div>
       <div
         className="layout"
@@ -165,6 +161,7 @@ const Layout = () => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
+            marginLeft:"10%"
           }}
         >
           <Box
@@ -289,6 +286,11 @@ const Layout = () => {
           </Box>
         </Box>
       </div>
+      <div className="marquee">
+          <marquee>
+          Any violation will be treated as a security incident and referred to HR for appropriate diciplinary action
+          </marquee>
+        </div>
     </div>
   );
 };

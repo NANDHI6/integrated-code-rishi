@@ -8,7 +8,7 @@ const Footer = () => {
       component="footer"
       sx={{
         width: "100%",
-        height: "9%",
+        height: "7%",
         color: "whitesmoke",
         backgroundColor: "#3c9ab0",
         position: "fixed",
@@ -20,7 +20,7 @@ const Footer = () => {
         paddingLeft: 2,
       }}
     >
-      <Typography variant="body1" sx={{ position: "absolute", top: "30%" }}>
+      <Typography variant="body1" sx={{ position: "absolute", top: "40%",fontSize:"80%" }}>
         ©2024 Pozent. All Rights Reserved.
       </Typography>
     </Box>

@@ -117,6 +117,30 @@ export const getActivities = async (email, filter) => {
 
 
 
+
+// today date 16/7/20224
+
+// api.js
+
+
+// export const getProductiveDa = (startDate, endDate, searchEmail) => {
+//   // Example URL, replace with your actual backend URL and endpoint
+//   return axios.get(`/api/productive-data?startDate=${startDate}&endDate=${endDate}&searchEmail=${searchEmail}`)
+//     .then(response => response.data)
+//     .catch(error => {
+//       throw error; // Propagate the error to the calling function 
+//     });
+// };
+
+// export const fetchSingleDa = (email) => {
+//   return axios.get(`/api/single-data?email=${email}`)
+//     .then(response => response.data)
+//     .catch(error => {
+//       throw error; // Propagate the error to the calling function
+//     });
+// };
+
+
 export const getProductiveData = async (startDate, endDate) => {
   try {
     const response = await api.get(`/productive`, {
@@ -129,6 +153,43 @@ export const getProductiveData = async (startDate, endDate) => {
     throw error;
   }
 };
+
+
+
+
+// // 15/07/2024
+// export const getProductiveData = async (startDate, endDate, email) => {
+//   try {
+//     const params = { startDate, endDate };
+//     if (email) {
+//       params.email = email;
+//     }
+
+//     const response = await axios.get('/productive/user', { params });
+//     console.log("User data:", response.data); // Log the response data to check
+//     return response.data;
+//   } catch (error) {
+//     console.error('Error fetching productive data for user:', error);
+//     throw error;
+//   }
+// };
+
+
+
+
+//=============================================================================================
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // for permisssion data
