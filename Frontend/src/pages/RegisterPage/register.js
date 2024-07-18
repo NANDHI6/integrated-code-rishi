@@ -185,7 +185,10 @@ export default function Register() {
                 Select
               </MenuItem>
               <MenuItem value="1">Admin</MenuItem>
-              <MenuItem value="2">Employee</MenuItem>
+              <MenuItem value="2">User</MenuItem>
+              {/* <MenuItem value="3">Guest</MenuItem>
+              <MenuItem value="4">HR</MenuItem>
+              <MenuItem value="5">Lead</MenuItem> */}
             </Select>
             
             <Button

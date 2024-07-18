@@ -1213,7 +1213,7 @@ const Datas = () => {
         <div className="search-container" style={{ width: "100%", textAlign: "center" }}>
           {/* <div className="date" style={{ width: "100%", height: "50px"}}> */}
           <div className="date" style={{ width: "100%", height: "50px",  display: "flex", justifyContent: "center", alignItems: "center" }}>
-             Start Date <span className="required">*</span>  :
+             Start Date <span className="required">*    </span>  :
             <input
               type="date"
               onChange={handleStartDateChange}
@@ -1278,7 +1278,7 @@ const Datas = () => {
               </button>
             )} */}
           </div>
-          <div className="table-container" style={{paddingTop:"20px"}}>
+          <div className="table-container" style={{paddingTop:"0px"}}>
             <table>
               <thead>
                 <tr>
@@ -1320,7 +1320,7 @@ const Datas = () => {
             Any violation will be treated as a security incident and referred to HR for appropriate disciplinary action
           </marquee>
         </div>
-        <div className="containerback" style={{ textAlign: "center", marginTop: "20px" }}>
+        <div className="containerback" style={{ textAlign: "center", marginTop: "17px" }}>
           <NavLink to="/main" style={{ textDecoration: "none" }}>
             <Button variant="contained" color="primary" style={{ marginRight: "10px" }}>
               Back

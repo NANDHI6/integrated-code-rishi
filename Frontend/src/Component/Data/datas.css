@@ -71,6 +71,7 @@
   font-family: "calibri";
   font-weight: bold;
   font-size: 17px;
+  margin-top: 25px;
 }
 
 @keyframes marquee {

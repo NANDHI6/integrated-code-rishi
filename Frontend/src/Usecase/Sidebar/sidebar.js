@@ -173,7 +173,7 @@ const Sidebar1 = () => {
                 <Link to="/main"><RiAdminFill size={18} color="white" /></Link>
               </span>
               <Link to="/main" style={{ textDecoration: "none" }}>
-                <p className="navbar-item">Attendance</p>
+                <p className="navbar-item" id= "head">Attendance</p>
               </Link>
             </button>
             {selectedItem === "AttendanceManagement" && (
